@@ -1,11 +1,17 @@
 # 인터넷 배포
 
+공개 주소: https://sleepyday09-detox-evaluator.streamlit.app/
+
+저장소: https://github.com/sleepyday09/detox-evaluator
+
+2026-09-06 확인: 실제 배포 로그의 실행 환경은 Python 3.14.7 / CPU PyTorch 2.14.0+cpu입니다. 기본 예제의 SIM 0.698, 순화문 독성 0.071, PPL 1379.05, J_proxy 0.000506을 화면에서 확인했습니다. 별도 비로그인 브라우저에서도 전체 지표 계산과 숫자 변경 경고를 확인했습니다. 실제 휴대폰 접속과 대규모 동시 접속 부하 테스트는 수행하지 않았습니다.
+
 ## Streamlit Community Cloud 설정
 
 - 저장소: 이 폴더의 코드만 포함한 GitHub 저장소
 - 브랜치: `main`
 - Main file path: `cloud_app.py`
-- Advanced settings → Python version: `3.12`
+- Advanced settings → Python version: `3.14` (현재 서버에서 확인한 버전; 로컬 테스트는 3.12)
 - Secrets: 필요 없음
 
 `requirements.txt`로 라이브러리를 설치하고 첫 분석 때 고정된 리비전의 공개 모델을 내려받습니다. Linux에서는 CPU용 PyTorch를 사용합니다. 로컬 환경을 기록한 `requirements-lock.txt`는 클라우드 설치 파일로 사용하지 않습니다.
