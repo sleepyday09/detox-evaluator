@@ -13,10 +13,10 @@ st.markdown("""<style>
 h1,h2,h3 { letter-spacing: -.04em; }
 div[data-testid="stMetric"] { background:white; border:1px solid #e1e7ef; border-radius:14px; padding:18px; }
 div[data-testid="stMetricLabel"] { color:#536177; }
-div[data-testid="stMetricValue"] { color:#143c66; }
-div[data-testid="stMetricValue"] > div { white-space:normal; overflow-wrap:anywhere; text-overflow:clip; }
-[class*="st-key-comparison-card-"] div[data-testid="stMetricValue"] { font-size:1.55rem; line-height:1.6; }
-[class*="st-key-comparison-card-"] div[data-testid="stMetricValue"] > div { white-space:pre-line; }
+div[data-testid="stMetricValue"] { color:#143c66; white-space:normal; text-overflow:clip; }
+div[data-testid="stMetricValue"] > div, div[data-testid="stMetricValue"] p { white-space:inherit; overflow-wrap:anywhere; text-overflow:clip; }
+div[data-testid="stMetricValue"] p { display:block; }
+[class*="st-key-comparison-card-"] div[data-testid="stMetricValue"] { font-size:1.55rem; line-height:1.6; white-space:pre-line; }
 [class*="st-key-score-card-"] { background:white; border:1px solid #e1e7ef; border-radius:14px; padding:18px; }
 [class*="st-key-score-card-"] div[data-testid="stMetric"] { background:transparent; border:0; border-radius:0; padding:0; }
 .eyebrow { color:#256b91; font-size:12px; font-weight:700; letter-spacing:.16em; }
