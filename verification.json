@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "unit_tests": 12,
+  "ui_tests": [
+    "initial_render",
+    "lexical_only",
+    "empty_input",
+    "all_models_offline"
+  ],
+  "sample_pairs_with_all_models": 4,
+  "identity_sim": 0.9999998807907104,
+  "unrelated_sim": 0.07877068221569061,
+  "long_input_rejected": true,
+  "human_accuracy_validation": "not_performed"
+}

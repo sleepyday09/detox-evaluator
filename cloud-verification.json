@@ -1,0 +1,17 @@
+{
+  "status": "passed",
+  "environment": "Windows Python 3.12; Linux hosting not yet verified",
+  "cloud_ui_all_models": true,
+  "matches_original_example": true,
+  "single_model_retention": true,
+  "concurrent_requests": [
+    [
+      "sim"
+    ],
+    [
+      "toxicity"
+    ]
+  ],
+  "engine_reset": true,
+  "linux_python312_dependency_resolution": "passed via cross-platform pip dry-run; runtime not tested"
+}

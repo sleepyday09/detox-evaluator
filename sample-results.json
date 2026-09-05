@@ -1,0 +1,675 @@
+{
+  "results": [
+    {
+      "source": "너는 멍청해서 설명을 전혀 이해하지 못했어.",
+      "candidate": "설명을 제대로 이해하지 못한 것 같아.",
+      "reference": "설명을 이해하는 데 어려움이 있었던 것 같아.",
+      "normalized_source": "너는 멍청해서 설명을 전혀 이해하지 못했어.",
+      "normalized_candidate": "설명을 제대로 이해하지 못한 것 같아.",
+      "source_overlap": {
+        "bleu": 8.643019616048525,
+        "chrf": 21.286903106200313,
+        "rouge_l": 0.42857142857142855,
+        "token_precision": 0.42857142857142855,
+        "token_recall": 0.42857142857142855,
+        "token_f1": 0.42857142857142855,
+        "common_tokens": [
+          "설명을",
+          "이해하지",
+          "."
+        ],
+        "removed_tokens": [
+          "너는",
+          "멍청해서",
+          "전혀",
+          "못했어"
+        ],
+        "added_tokens": [
+          "제대로",
+          "못한",
+          "것",
+          "같아"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "reference_overlap": {
+        "bleu": 22.772101321113862,
+        "chrf": 20.91056317091921,
+        "rouge_l": 0.5333333333333333,
+        "token_precision": 0.5714285714285714,
+        "token_recall": 0.5,
+        "token_f1": 0.5333333333333333,
+        "common_tokens": [
+          "설명을",
+          "것",
+          "같아",
+          "."
+        ],
+        "removed_tokens": [
+          "이해하는",
+          "데",
+          "어려움이",
+          "있었던"
+        ],
+        "added_tokens": [
+          "제대로",
+          "이해하지",
+          "못한"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "checks": {
+        "messages": [],
+        "source_numbers": [],
+        "candidate_numbers": [],
+        "source_negation": [],
+        "candidate_negation": [],
+        "keywords_kept": [
+          "설명"
+        ],
+        "keywords_missing": [],
+        "keywords_not_in_source": [],
+        "keyword_retention": 1.0,
+        "length_ratio": 0.875
+      },
+      "sim": 0.7480998039245605,
+      "toxicity_source": 0.53919517993927,
+      "toxicity_candidate": 0.107637420296669,
+      "toxicity_reduction": 0.431557759642601,
+      "sta": 1,
+      "toxicity_labels_source": {
+        "여성/가족": 0.014599361456930637,
+        "남성": 0.007284524850547314,
+        "성소수자": 0.00753945205360651,
+        "인종/국적": 0.01124815084040165,
+        "연령": 0.007711196318268776,
+        "지역": 0.009516937658190727,
+        "종교": 0.007525324821472168,
+        "기타 혐오": 0.01651574857532978,
+        "악플/욕설": 0.53919517993927,
+        "clean": 0.4732932448387146
+      },
+      "toxicity_labels_candidate": {
+        "여성/가족": 0.013278541155159473,
+        "남성": 0.009049087762832642,
+        "성소수자": 0.010355404578149319,
+        "인종/국적": 0.011398671194911003,
+        "연령": 0.008821814320981503,
+        "지역": 0.013444948010146618,
+        "종교": 0.010775750502943993,
+        "기타 혐오": 0.009583958424627781,
+        "악플/욕설": 0.107637420296669,
+        "clean": 0.8632276654243469
+      },
+      "ppl_source": 81.92769246317185,
+      "ppl_candidate": 38.04703931113811,
+      "fl_proxy": 0.02628325404829212,
+      "j_proxy": 0.019662497200026746,
+      "errors": {},
+      "settings": {
+        "toxicity_threshold": 0.5,
+        "keywords": "설명",
+        "use_sim": true,
+        "use_toxicity": true,
+        "use_ppl": true
+      },
+      "measured_at_utc": "2026-09-05T15:19:29.036132+00:00",
+      "versions": {
+        "sacrebleu": "2.6.0",
+        "torch": "2.14.0",
+        "transformers": "4.57.6",
+        "sentence-transformers": "5.7.0"
+      },
+      "models": {
+        "sim": {
+          "id": "snunlp/KR-SBERT-V40K-klueNLI-augSTS",
+          "revision": "92c6c2c7032f680bff0f9f0c63fadd3f97e635b2",
+          "device": "cpu",
+          "max_tokens": 128,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": null
+        },
+        "toxicity": {
+          "id": "smilegate-ai/kor_unsmile",
+          "revision": "f597423eeff8e6da99cad85cbe3a81adf5225637",
+          "device": "cpu",
+          "max_tokens": 300,
+          "toxicity_definition": "max(sigmoid(logits)) over 9 non-clean labels; not union probability",
+          "label_mapping": {
+            "0": "여성/가족",
+            "1": "남성",
+            "2": "성소수자",
+            "3": "인종/국적",
+            "4": "연령",
+            "5": "지역",
+            "6": "종교",
+            "7": "기타 혐오",
+            "8": "악플/욕설",
+            "9": "clean"
+          },
+          "ppl_definition": null
+        },
+        "ppl": {
+          "id": "skt/kogpt2-base-v2",
+          "revision": "d0c0df48bf2b2c9350dd855021a5b216f560c0c7",
+          "device": "cpu",
+          "max_tokens": 1024,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": "exp(mean next-token NLL), no BOS/EOS added; first token unscored"
+        }
+      }
+    },
+    {
+      "source": "그 멍청한 계획에 나는 찬성하지 않는다.",
+      "candidate": "그 계획에 나는 찬성한다.",
+      "reference": "그 계획에 나는 동의하지 않는다.",
+      "normalized_source": "그 멍청한 계획에 나는 찬성하지 않는다.",
+      "normalized_candidate": "그 계획에 나는 찬성한다.",
+      "source_overlap": {
+        "bleu": 17.03057835676086,
+        "chrf": 38.08456624161593,
+        "rouge_l": 0.6666666666666666,
+        "token_precision": 0.8,
+        "token_recall": 0.5714285714285714,
+        "token_f1": 0.6666666666666666,
+        "common_tokens": [
+          "그",
+          "계획에",
+          "나는",
+          "."
+        ],
+        "removed_tokens": [
+          "멍청한",
+          "찬성하지",
+          "않는다"
+        ],
+        "added_tokens": [
+          "찬성한다"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "reference_overlap": {
+        "bleu": 34.98330125272251,
+        "chrf": 34.21070168082437,
+        "rouge_l": 0.7272727272727273,
+        "token_precision": 0.8,
+        "token_recall": 0.6666666666666666,
+        "token_f1": 0.7272727272727273,
+        "common_tokens": [
+          "그",
+          "계획에",
+          "나는",
+          "."
+        ],
+        "removed_tokens": [
+          "동의하지",
+          "않는다"
+        ],
+        "added_tokens": [
+          "찬성한다"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "checks": {
+        "messages": [
+          "부정 표현의 형태가 달라졌습니다. 주장 반전인지 표현 변경인지 직접 확인하세요."
+        ],
+        "source_numbers": [],
+        "candidate_numbers": [],
+        "source_negation": [
+          "않는다"
+        ],
+        "candidate_negation": [],
+        "keywords_kept": [
+          "계획"
+        ],
+        "keywords_missing": [],
+        "keywords_not_in_source": [],
+        "keyword_retention": 1.0,
+        "length_ratio": 0.6363636363636364
+      },
+      "sim": 0.7457194328308105,
+      "toxicity_source": 0.44023922085762024,
+      "toxicity_candidate": 0.06643935292959213,
+      "toxicity_reduction": 0.3737998679280281,
+      "sta": 1,
+      "toxicity_labels_source": {
+        "여성/가족": 0.009029857814311981,
+        "남성": 0.007901865988969803,
+        "성소수자": 0.008544395677745342,
+        "인종/국적": 0.009060216136276722,
+        "연령": 0.006311869714409113,
+        "지역": 0.010852567851543427,
+        "종교": 0.011168505996465683,
+        "기타 혐오": 0.008956046774983406,
+        "악플/욕설": 0.44023922085762024,
+        "clean": 0.5488185882568359
+      },
+      "toxicity_labels_candidate": {
+        "여성/가족": 0.015311142429709435,
+        "남성": 0.011298482306301594,
+        "성소수자": 0.014910230413079262,
+        "인종/국적": 0.014488796703517437,
+        "연령": 0.009546644985675812,
+        "지역": 0.015640124678611755,
+        "종교": 0.0137245524674654,
+        "기타 혐오": 0.00906966533511877,
+        "악플/욕설": 0.06643935292959213,
+        "clean": 0.9108058214187622
+      },
+      "ppl_source": 98.8337928343217,
+      "ppl_candidate": 471.1660101103121,
+      "fl_proxy": 0.0021223941849410452,
+      "j_proxy": 0.0015827105878376466,
+      "errors": {},
+      "settings": {
+        "toxicity_threshold": 0.5,
+        "keywords": "계획",
+        "use_sim": true,
+        "use_toxicity": true,
+        "use_ppl": true
+      },
+      "measured_at_utc": "2026-09-05T15:19:30.946438+00:00",
+      "versions": {
+        "sacrebleu": "2.6.0",
+        "torch": "2.14.0",
+        "transformers": "4.57.6",
+        "sentence-transformers": "5.7.0"
+      },
+      "models": {
+        "sim": {
+          "id": "snunlp/KR-SBERT-V40K-klueNLI-augSTS",
+          "revision": "92c6c2c7032f680bff0f9f0c63fadd3f97e635b2",
+          "device": "cpu",
+          "max_tokens": 128,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": null
+        },
+        "toxicity": {
+          "id": "smilegate-ai/kor_unsmile",
+          "revision": "f597423eeff8e6da99cad85cbe3a81adf5225637",
+          "device": "cpu",
+          "max_tokens": 300,
+          "toxicity_definition": "max(sigmoid(logits)) over 9 non-clean labels; not union probability",
+          "label_mapping": {
+            "0": "여성/가족",
+            "1": "남성",
+            "2": "성소수자",
+            "3": "인종/국적",
+            "4": "연령",
+            "5": "지역",
+            "6": "종교",
+            "7": "기타 혐오",
+            "8": "악플/욕설",
+            "9": "clean"
+          },
+          "ppl_definition": null
+        },
+        "ppl": {
+          "id": "skt/kogpt2-base-v2",
+          "revision": "d0c0df48bf2b2c9350dd855021a5b216f560c0c7",
+          "device": "cpu",
+          "max_tokens": 1024,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": "exp(mean next-token NLL), no BOS/EOS added; first token unscored"
+        }
+      }
+    },
+    {
+      "source": "너 때문에 회의가 3시에서 5시로 밀렸잖아 바보야.",
+      "candidate": "당신 때문에 회의가 3시에서 6시로 미뤄졌습니다.",
+      "reference": "당신 때문에 회의가 3시에서 5시로 미뤄졌습니다.",
+      "normalized_source": "너 때문에 회의가 3시에서 5시로 밀렸잖아 바보야.",
+      "normalized_candidate": "당신 때문에 회의가 3시에서 6시로 미뤄졌습니다.",
+      "source_overlap": {
+        "bleu": 22.772101321113862,
+        "chrf": 41.04952666872171,
+        "rouge_l": 0.5333333333333333,
+        "token_precision": 0.5714285714285714,
+        "token_recall": 0.5,
+        "token_f1": 0.5333333333333333,
+        "common_tokens": [
+          "때문에",
+          "회의가",
+          "3시에서",
+          "."
+        ],
+        "removed_tokens": [
+          "너",
+          "5시로",
+          "밀렸잖아",
+          "바보야"
+        ],
+        "added_tokens": [
+          "당신",
+          "6시로",
+          "미뤄졌습니다"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "reference_overlap": {
+        "bleu": 48.892302243490086,
+        "chrf": 81.134368154492,
+        "rouge_l": 0.8571428571428571,
+        "token_precision": 0.8571428571428571,
+        "token_recall": 0.8571428571428571,
+        "token_f1": 0.8571428571428571,
+        "common_tokens": [
+          "당신",
+          "때문에",
+          "회의가",
+          "3시에서",
+          "미뤄졌습니다",
+          "."
+        ],
+        "removed_tokens": [
+          "5시로"
+        ],
+        "added_tokens": [
+          "6시로"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "checks": {
+        "messages": [
+          "숫자 표현이 달라졌습니다. 수량·날짜·수치의 의미를 확인하세요."
+        ],
+        "source_numbers": [
+          "3",
+          "5"
+        ],
+        "candidate_numbers": [
+          "3",
+          "6"
+        ],
+        "source_negation": [],
+        "candidate_negation": [],
+        "keywords_kept": [
+          "회의"
+        ],
+        "keywords_missing": [],
+        "keywords_not_in_source": [],
+        "keyword_retention": 1.0,
+        "length_ratio": 0.9642857142857143
+      },
+      "sim": 0.8242989182472229,
+      "toxicity_source": 0.5534911751747131,
+      "toxicity_candidate": 0.15009036660194397,
+      "toxicity_reduction": 0.40340080857276917,
+      "sta": 1,
+      "toxicity_labels_source": {
+        "여성/가족": 0.010732949711382389,
+        "남성": 0.007728474214673042,
+        "성소수자": 0.006997404154390097,
+        "인종/국적": 0.012033944018185139,
+        "연령": 0.007423814386129379,
+        "지역": 0.009971662424504757,
+        "종교": 0.010902096517384052,
+        "기타 혐오": 0.011225825175642967,
+        "악플/욕설": 0.5534911751747131,
+        "clean": 0.4632379412651062
+      },
+      "toxicity_labels_candidate": {
+        "여성/가족": 0.012173948809504509,
+        "남성": 0.009115325286984444,
+        "성소수자": 0.008636625483632088,
+        "인종/국적": 0.011551951989531517,
+        "연령": 0.008300064131617546,
+        "지역": 0.011907698586583138,
+        "종교": 0.01110832765698433,
+        "기타 혐오": 0.008546330034732819,
+        "악플/욕설": 0.15009036660194397,
+        "clean": 0.8303263187408447
+      },
+      "ppl_source": 89.15066780499066,
+      "ppl_candidate": 61.43006773898197,
+      "fl_proxy": 0.016278673242703025,
+      "j_proxy": 0.013418492744460116,
+      "errors": {},
+      "settings": {
+        "toxicity_threshold": 0.5,
+        "keywords": "회의",
+        "use_sim": true,
+        "use_toxicity": true,
+        "use_ppl": true
+      },
+      "measured_at_utc": "2026-09-05T15:19:31.073367+00:00",
+      "versions": {
+        "sacrebleu": "2.6.0",
+        "torch": "2.14.0",
+        "transformers": "4.57.6",
+        "sentence-transformers": "5.7.0"
+      },
+      "models": {
+        "sim": {
+          "id": "snunlp/KR-SBERT-V40K-klueNLI-augSTS",
+          "revision": "92c6c2c7032f680bff0f9f0c63fadd3f97e635b2",
+          "device": "cpu",
+          "max_tokens": 128,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": null
+        },
+        "toxicity": {
+          "id": "smilegate-ai/kor_unsmile",
+          "revision": "f597423eeff8e6da99cad85cbe3a81adf5225637",
+          "device": "cpu",
+          "max_tokens": 300,
+          "toxicity_definition": "max(sigmoid(logits)) over 9 non-clean labels; not union probability",
+          "label_mapping": {
+            "0": "여성/가족",
+            "1": "남성",
+            "2": "성소수자",
+            "3": "인종/국적",
+            "4": "연령",
+            "5": "지역",
+            "6": "종교",
+            "7": "기타 혐오",
+            "8": "악플/욕설",
+            "9": "clean"
+          },
+          "ppl_definition": null
+        },
+        "ppl": {
+          "id": "skt/kogpt2-base-v2",
+          "revision": "d0c0df48bf2b2c9350dd855021a5b216f560c0c7",
+          "device": "cpu",
+          "max_tokens": 1024,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": "exp(mean next-token NLL), no BOS/EOS added; first token unscored"
+        }
+      }
+    },
+    {
+      "source": "네 보고서는 쓰레기야. 근거가 부족해.",
+      "candidate": "보고서의 근거가 부족합니다.",
+      "reference": "보고서에 근거를 보완할 필요가 있습니다.",
+      "normalized_source": "네 보고서는 쓰레기야. 근거가 부족해.",
+      "normalized_candidate": "보고서의 근거가 부족합니다.",
+      "source_overlap": {
+        "bleu": 8.9730240870212,
+        "chrf": 24.42701001671185,
+        "rouge_l": 0.36363636363636365,
+        "token_precision": 0.5,
+        "token_recall": 0.2857142857142857,
+        "token_f1": 0.36363636363636365,
+        "common_tokens": [
+          ".",
+          "근거가"
+        ],
+        "removed_tokens": [
+          "네",
+          "보고서는",
+          "쓰레기야",
+          ".",
+          "부족해"
+        ],
+        "added_tokens": [
+          "보고서의",
+          "부족합니다"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "reference_overlap": {
+        "bleu": 9.688464563433238,
+        "chrf": 16.25471423405145,
+        "rouge_l": 0.2,
+        "token_precision": 0.25,
+        "token_recall": 0.16666666666666666,
+        "token_f1": 0.2,
+        "common_tokens": [
+          "."
+        ],
+        "removed_tokens": [
+          "보고서에",
+          "근거를",
+          "보완할",
+          "필요가",
+          "있습니다"
+        ],
+        "added_tokens": [
+          "보고서의",
+          "근거가",
+          "부족합니다"
+        ],
+        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
+        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
+      },
+      "checks": {
+        "messages": [],
+        "source_numbers": [],
+        "candidate_numbers": [],
+        "source_negation": [],
+        "candidate_negation": [],
+        "keywords_kept": [
+          "보고서"
+        ],
+        "keywords_missing": [],
+        "keywords_not_in_source": [],
+        "keyword_retention": 1.0,
+        "length_ratio": 0.7142857142857143
+      },
+      "sim": 0.6977975368499756,
+      "toxicity_source": 0.8990724682807922,
+      "toxicity_candidate": 0.07102803140878677,
+      "toxicity_reduction": 0.8280444368720055,
+      "sta": 1,
+      "toxicity_labels_source": {
+        "여성/가족": 0.020516229793429375,
+        "남성": 0.011546943336725235,
+        "성소수자": 0.012518791481852531,
+        "인종/국적": 0.025238927453756332,
+        "연령": 0.0111019816249609,
+        "지역": 0.012187231332063675,
+        "종교": 0.012441683560609818,
+        "기타 혐오": 0.045184362679719925,
+        "악플/욕설": 0.8990724682807922,
+        "clean": 0.06856358796358109
+      },
+      "toxicity_labels_candidate": {
+        "여성/가족": 0.01585431583225727,
+        "남성": 0.01145355124026537,
+        "성소수자": 0.013263124041259289,
+        "인종/국적": 0.014966946095228195,
+        "연령": 0.010345391929149628,
+        "지역": 0.014734995551407337,
+        "종교": 0.011567157693207264,
+        "기타 혐오": 0.010338266380131245,
+        "악플/욕설": 0.07102803140878677,
+        "clean": 0.9103490710258484
+      },
+      "ppl_source": 462.3913760947457,
+      "ppl_candidate": 1379.0508781802164,
+      "fl_proxy": 0.0007251364078166509,
+      "j_proxy": 0.0005059983992546984,
+      "errors": {},
+      "settings": {
+        "toxicity_threshold": 0.5,
+        "keywords": "보고서",
+        "use_sim": true,
+        "use_toxicity": true,
+        "use_ppl": true
+      },
+      "measured_at_utc": "2026-09-05T15:19:31.201582+00:00",
+      "versions": {
+        "sacrebleu": "2.6.0",
+        "torch": "2.14.0",
+        "transformers": "4.57.6",
+        "sentence-transformers": "5.7.0"
+      },
+      "models": {
+        "sim": {
+          "id": "snunlp/KR-SBERT-V40K-klueNLI-augSTS",
+          "revision": "92c6c2c7032f680bff0f9f0c63fadd3f97e635b2",
+          "device": "cpu",
+          "max_tokens": 128,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": null
+        },
+        "toxicity": {
+          "id": "smilegate-ai/kor_unsmile",
+          "revision": "f597423eeff8e6da99cad85cbe3a81adf5225637",
+          "device": "cpu",
+          "max_tokens": 300,
+          "toxicity_definition": "max(sigmoid(logits)) over 9 non-clean labels; not union probability",
+          "label_mapping": {
+            "0": "여성/가족",
+            "1": "남성",
+            "2": "성소수자",
+            "3": "인종/국적",
+            "4": "연령",
+            "5": "지역",
+            "6": "종교",
+            "7": "기타 혐오",
+            "8": "악플/욕설",
+            "9": "clean"
+          },
+          "ppl_definition": null
+        },
+        "ppl": {
+          "id": "skt/kogpt2-base-v2",
+          "revision": "d0c0df48bf2b2c9350dd855021a5b216f560c0c7",
+          "device": "cpu",
+          "max_tokens": 1024,
+          "toxicity_definition": null,
+          "label_mapping": null,
+          "ppl_definition": "exp(mean next-token NLL), no BOS/EOS added; first token unscored"
+        }
+      }
+    }
+  ],
+  "summary": {
+    "total_rows": 4,
+    "sim_macro_mean": 0.7539789229631424,
+    "sim_valid_n": 4,
+    "sta_macro_mean": 1.0,
+    "sta_valid_n": 4,
+    "toxicity_reduction_macro_mean": 0.5092007182538509,
+    "toxicity_reduction_valid_n": 4,
+    "ppl_candidate_macro_mean": 487.42349883516215,
+    "ppl_candidate_valid_n": 4,
+    "j_proxy_macro_mean": 0.008792424732894802,
+    "j_proxy_valid_n": 4,
+    "initially_toxic_n": 3,
+    "toxic_to_nontoxic_rate": 1.0,
+    "source_corpus_n": 4,
+    "source_corpus_bleu": 9.879229964573927,
+    "source_corpus_chrf": 31.78827512657825,
+    "reference_corpus_n": 4,
+    "reference_corpus_bleu": 24.004324490881814,
+    "reference_corpus_chrf": 41.584011960968176
+  }
+}

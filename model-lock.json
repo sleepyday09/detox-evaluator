@@ -1,0 +1,14 @@
+{
+  "sim": {
+    "id": "snunlp/KR-SBERT-V40K-klueNLI-augSTS",
+    "revision": "92c6c2c7032f680bff0f9f0c63fadd3f97e635b2"
+  },
+  "toxicity": {
+    "id": "smilegate-ai/kor_unsmile",
+    "revision": "f597423eeff8e6da99cad85cbe3a81adf5225637"
+  },
+  "ppl": {
+    "id": "skt/kogpt2-base-v2",
+    "revision": "d0c0df48bf2b2c9350dd855021a5b216f560c0c7"
+  }
+}
