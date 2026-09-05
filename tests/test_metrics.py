@@ -43,10 +43,17 @@ class MetricsTests(unittest.TestCase):
         self.assertIsNone(r["j_proxy"])
         self.assertEqual(set(r["errors"]), {"sim", "toxicity", "ppl"})
 
-    def test_optional_reference_separate(self):
-        r = evaluate_pair("거친 말", "부드러운 말", reference="부드러운 말", use_sim=False, use_toxicity=False, use_ppl=False)
-        self.assertAlmostEqual(r["reference_overlap"]["bleu"], 100)
-        self.assertLess(r["source_overlap"]["bleu"], 100)
+    def test_legacy_csv_extra_column_ignored_in_evaluation_and_export(self):
+        data = 'source,candidate,reference,keywords\n거친 말,부드러운 말,예전 기준문,말\n'.encode("utf-8")
+        row = parse_csv(data)[0]
+        self.assertEqual(set(row), {"source", "candidate", "keywords"})
+        r = evaluate_pair(**row, use_sim=False, use_toxicity=False, use_ppl=False)
+        self.assertAlmostEqual(r["source_overlap"]["bleu"], lexical(row["source"], row["candidate"])["bleu"])
+        self.assertNotIn("reference", r)
+        self.assertNotIn("reference_overlap", r)
+        exported = next(csv.DictReader(io.StringIO(results_csv([r]).decode("utf-8-sig"))))
+        self.assertFalse(any(key.startswith("reference") for key in exported))
+        self.assertFalse(any(key.startswith("reference") for key in aggregate([r])))
 
     def test_csv_encoding_and_quotes(self):
         data = 'source,candidate\n"원문, 내용",순화문\n'.encode("utf-8-sig")

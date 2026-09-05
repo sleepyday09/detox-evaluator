@@ -7,6 +7,10 @@ from metrics import (evaluate_pair, aggregate, parse_csv, results_csv, flatten, 
 from models import ModelEngine, MODEL_IDS
 
 st.set_page_config(page_title="문장 보존 실험실", page_icon="🔬", layout="wide")
+if st.session_state.get("result_schema") != 2:
+    st.session_state.pop("single_result", None)
+    st.session_state.pop("batch_result", None)
+    st.session_state.result_schema = 2
 st.markdown("""<style>
 .stApp { background: #f7f9fc; }
 .block-container { max-width: 1240px; padding-top: 4.5rem; }
@@ -56,8 +60,6 @@ def render_result(r):
     with st.expander("평가한 문장과 설정 확인"):
         st.write("원문", r["source"])
         st.write("순화문", r["candidate"])
-        if r.get("reference"):
-            st.write("기준 순화문", r["reference"])
         st.json(r["settings"])
     cards = st.columns(4)
     with cards[0], st.container(key="score-card-sim"):
@@ -84,11 +86,10 @@ def render_result(r):
         st.caption("빨간 취소선: 삭제 · 초록 밑줄: 추가 / 비교용 토큰 사이에 공백을 표시합니다.")
         st.markdown(diff_html(r["normalized_source"], r["normalized_candidate"]), unsafe_allow_html=True)
         st.markdown("#### 표현 중복 지표")
-        s, ref = r["source_overlap"], r["reference_overlap"]
+        s = r["source_overlap"]
         names = [("BLEU · 0~100", "bleu"), ("chrF · 0~100", "chrf"),
                  ("ROUGE-L F1 · 0~1", "rouge_l"), ("토큰 중복 F1 · 0~1", "token_f1")]
-        st.dataframe([{"지표": name, "원문 대비": fmt(s[key]),
-                       "기준 순화문 대비": fmt(ref[key]) if ref else "기준문 없음"}
+        st.dataframe([{"지표": name, "원문 대비": fmt(s[key])}
                       for name, key in names], hide_index=True, width="stretch")
         st.caption("원문 대비 BLEU는 self-BLEU 성격의 중복도입니다. 원문 복사도 높은 점수를 받으므로 순화 품질로 해석하지 않습니다.")
         with st.expander("겹침·삭제·추가 토큰 보기"):
@@ -168,17 +169,14 @@ with single:
         a, b = st.columns(2)
         source = a.text_area("원문", "네 보고서는 쓰레기야. 근거가 부족해.", height=150, max_chars=MAX_CHARS)
         candidate = b.text_area("순화문", "보고서의 근거가 부족합니다.", height=150, max_chars=MAX_CHARS)
-        with st.expander("선택 입력 · 기준 순화문과 핵심 표현"):
-            st.caption("순화문은 평가할 문장, 기준 순화문은 비교 기준으로 삼을 사람이 작성한 순화 예시입니다. 기준문은 비워 두어도 됩니다.")
-            reference = st.text_area("사람이 작성한 기준 순화문", max_chars=MAX_CHARS,
-                                     help="기준문과 순화문 사이의 BLEU·ROUGE-L·chrF·토큰 중복을 추가로 비교합니다. 원문 대비 SIM·독성·PPL·J_proxy에는 영향을 주지 않습니다.")
+        with st.expander("선택 입력 · 보존할 핵심 표현"):
             keywords = st.text_input("보존을 확인할 핵심 표현 · 쉼표로 구분", placeholder="보고서, 근거",
                                      help="원문에 존재하는 표현만 분모에 포함합니다. 부분 문자열의 존재 여부를 확인합니다.")
         submitted = st.form_submit_button("문장 비교하기", type="primary", width="stretch")
     if submitted:
         with st.spinner("지표를 계산하고 있습니다. 첫 실행에는 모델을 내려받습니다."):
             try:
-                st.session_state.single_result = evaluate(dict(source=source, candidate=candidate, reference=reference, keywords=keywords))
+                st.session_state.single_result = evaluate(dict(source=source, candidate=candidate, keywords=keywords))
             except Exception as exc:
                 st.session_state.pop("single_result", None)
                 st.error(str(exc))
@@ -187,7 +185,7 @@ with single:
 
 with batch:
     st.subheader("여러 순화 결과를 한 번에 비교")
-    st.write("필수 열은 source(원문), candidate(순화문)입니다. reference(기준 순화문), keywords(핵심 표현)는 선택입니다. 최대 100쌍까지 평가합니다.")
+    st.write("필수 열은 source(원문), candidate(순화문)입니다. keywords(핵심 표현)는 선택입니다. 최대 100쌍까지 평가합니다.")
     st.download_button("예제 CSV 받기", Path(__file__).with_name("examples.csv").read_bytes(), "examples.csv", "text/csv")
     uploaded = st.file_uploader("CSV 파일 · UTF-8 또는 CP949", type=["csv"])
     if st.button("CSV 평가 시작", type="primary", disabled=uploaded is None):
@@ -226,7 +224,7 @@ with guide:
 | 항목 | 계산 | 해석할 때 확인할 것 |
 |---|---|---|
 | SIM | KR-SBERT 임베딩의 코사인 유사도, −1~1 | 의미 보존 확률이 아님. 부정·대상 변경은 직접 확인 |
-| BLEU | Unicode 토큰 1~4-gram, exp smoothing, effective order, 0~100 | 원문 대비와 기준 순화문 대비를 구분. 짧은 문장에 민감 |
+| BLEU | Unicode 토큰 1~4-gram, exp smoothing, effective order, 0~100 | 원문과 순화문의 표현 중복도. 짧은 문장에 민감 |
 | chrF | 공백 제외 문자 1~6-gram, β=2, 0~100 | 한국어 표현 중복을 살피는 보조 지표 |
 | ROUGE-L | Unicode 토큰 최장 공통 부분수열 F1, 0~1 | 형태소 분석을 하지 않으므로 조사가 바뀌면 별도 토큰 |
 | 독성 점수 | UnSmile의 혐오·욕설 9개 라벨 sigmoid 중 최댓값 | 실제 독성 확률이나 라벨 합집합 확률이 아님 |

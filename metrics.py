@@ -118,17 +118,15 @@ def diff_html(source: str, candidate: str) -> str:
     return '<div style="line-height:2.3;font-size:17px">' + " ".join(parts) + "</div>"
 
 
-def evaluate_pair(source, candidate, reference="", keywords="", engine=None,
+def evaluate_pair(source, candidate, keywords="", engine=None,
                   use_sim=True, use_toxicity=True, use_ppl=True, threshold=0.5) -> dict:
     src, out = validate(source, "원문"), validate(candidate, "순화문")
-    ref = validate(reference, "기준 순화문") if reference and reference.strip() else None
     if not 0 < threshold < 1:
         raise ValueError("독성 판정 임계값은 0과 1 사이여야 합니다.")
     result = {
-        "source": source, "candidate": candidate, "reference": reference,
+        "source": source, "candidate": candidate,
         "normalized_source": src, "normalized_candidate": out,
         "source_overlap": lexical(src, out),
-        "reference_overlap": lexical(ref, out) if ref else None,
         "checks": checks(src, out, keywords),
         "sim": None, "toxicity_source": None, "toxicity_candidate": None,
         "toxicity_reduction": None, "sta": None,
@@ -177,26 +175,25 @@ def parse_csv(data: bytes) -> list[dict]:
         raw = data.decode("cp949")
     reader = csv.DictReader(io.StringIO(raw))
     if not reader.fieldnames or not {"source", "candidate"}.issubset(reader.fieldnames):
-        raise ValueError("CSV에 source, candidate 열이 필요합니다. reference, keywords 열은 선택 사항입니다.")
+        raise ValueError("CSV에 source, candidate 열이 필요합니다. keywords 열은 선택 사항입니다.")
     rows = []
     for i, row in enumerate(reader, 2):
         if len(rows) >= MAX_ROWS:
             raise ValueError(f"한 번에 최대 {MAX_ROWS}쌍까지 평가할 수 있습니다.")
         if None in row:
             raise ValueError(f"CSV {i}행의 열 수가 맞지 않습니다. 쉼표가 있는 문장은 큰따옴표로 감싸세요.")
-        rows.append({k: row.get(k) or "" for k in ("source", "candidate", "reference", "keywords")})
+        rows.append({k: row.get(k) or "" for k in ("source", "candidate", "keywords")})
     if not rows:
         raise ValueError("CSV에 평가할 행이 없습니다.")
     return rows
 
 
 def flatten(result: dict) -> dict:
-    keys = ("source", "candidate", "reference", "sim", "toxicity_source", "toxicity_candidate",
+    keys = ("source", "candidate", "sim", "toxicity_source", "toxicity_candidate",
             "toxicity_reduction", "sta", "ppl_source", "ppl_candidate", "fl_proxy", "j_proxy")
     row = {k: result.get(k) for k in keys}
-    for prefix, field in [("source", "source_overlap"), ("reference", "reference_overlap")]:
-        for metric in ("bleu", "chrf", "rouge_l", "token_f1"):
-            row[f"{prefix}_{metric}"] = (result.get(field) or {}).get(metric)
+    for metric in ("bleu", "chrf", "rouge_l", "token_f1"):
+        row[f"source_{metric}"] = (result.get("source_overlap") or {}).get(metric)
     row["warnings"] = " | ".join(result.get("checks", {}).get("messages", []))
     row["errors"] = str(result.get("errors", {}))
     return row
@@ -224,13 +221,12 @@ def aggregate(results: list[dict]) -> dict:
                 and r["toxicity_source"] >= r["settings"]["toxicity_threshold"]]
     summary["initially_toxic_n"] = len(eligible)
     summary["toxic_to_nontoxic_rate"] = sum(r["sta"] for r in eligible) / len(eligible) if eligible else None
-    for prefix in ("source", "reference"):
-        pairs = [(r["normalized_candidate"], normalize(r["source"] if prefix == "source" else r["reference"]))
-                 for r in results if r.get("normalized_candidate") and (prefix == "source" or r.get("reference", "").strip())]
-        summary[prefix + "_corpus_n"] = len(pairs)
-        if pairs:
-            candidates, references = zip(*pairs)
-            summary[prefix + "_corpus_bleu"] = bleu_metric().corpus_score(
-                [" ".join(tokens(s)) for s in candidates], [[" ".join(tokens(s)) for s in references]]).score
-            summary[prefix + "_corpus_chrf"] = CHRF().corpus_score(list(candidates), [list(references)]).score
+    pairs = [(r["normalized_candidate"], normalize(r["source"]))
+             for r in results if r.get("normalized_candidate")]
+    summary["source_corpus_n"] = len(pairs)
+    if pairs:
+        candidates, sources = zip(*pairs)
+        summary["source_corpus_bleu"] = bleu_metric().corpus_score(
+            [" ".join(tokens(s)) for s in candidates], [[" ".join(tokens(s)) for s in sources]]).score
+        summary["source_corpus_chrf"] = CHRF().corpus_score(list(candidates), [list(sources)]).score
     return summary

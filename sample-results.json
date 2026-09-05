@@ -3,7 +3,6 @@
     {
       "source": "너는 멍청해서 설명을 전혀 이해하지 못했어.",
       "candidate": "설명을 제대로 이해하지 못한 것 같아.",
-      "reference": "설명을 이해하는 데 어려움이 있었던 것 같아.",
       "normalized_source": "너는 멍청해서 설명을 전혀 이해하지 못했어.",
       "normalized_candidate": "설명을 제대로 이해하지 못한 것 같아.",
       "source_overlap": {
@@ -29,33 +28,6 @@
           "못한",
           "것",
           "같아"
-        ],
-        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
-        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
-      },
-      "reference_overlap": {
-        "bleu": 22.772101321113862,
-        "chrf": 20.91056317091921,
-        "rouge_l": 0.5333333333333333,
-        "token_precision": 0.5714285714285714,
-        "token_recall": 0.5,
-        "token_f1": 0.5333333333333333,
-        "common_tokens": [
-          "설명을",
-          "것",
-          "같아",
-          "."
-        ],
-        "removed_tokens": [
-          "이해하는",
-          "데",
-          "어려움이",
-          "있었던"
-        ],
-        "added_tokens": [
-          "제대로",
-          "이해하지",
-          "못한"
         ],
         "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
         "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
@@ -166,7 +138,6 @@
     {
       "source": "그 멍청한 계획에 나는 찬성하지 않는다.",
       "candidate": "그 계획에 나는 찬성한다.",
-      "reference": "그 계획에 나는 동의하지 않는다.",
       "normalized_source": "그 멍청한 계획에 나는 찬성하지 않는다.",
       "normalized_candidate": "그 계획에 나는 찬성한다.",
       "source_overlap": {
@@ -185,29 +156,6 @@
         "removed_tokens": [
           "멍청한",
           "찬성하지",
-          "않는다"
-        ],
-        "added_tokens": [
-          "찬성한다"
-        ],
-        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
-        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
-      },
-      "reference_overlap": {
-        "bleu": 34.98330125272251,
-        "chrf": 34.21070168082437,
-        "rouge_l": 0.7272727272727273,
-        "token_precision": 0.8,
-        "token_recall": 0.6666666666666666,
-        "token_f1": 0.7272727272727273,
-        "common_tokens": [
-          "그",
-          "계획에",
-          "나는",
-          "."
-        ],
-        "removed_tokens": [
-          "동의하지",
           "않는다"
         ],
         "added_tokens": [
@@ -326,7 +274,6 @@
     {
       "source": "너 때문에 회의가 3시에서 5시로 밀렸잖아 바보야.",
       "candidate": "당신 때문에 회의가 3시에서 6시로 미뤄졌습니다.",
-      "reference": "당신 때문에 회의가 3시에서 5시로 미뤄졌습니다.",
       "normalized_source": "너 때문에 회의가 3시에서 5시로 밀렸잖아 바보야.",
       "normalized_candidate": "당신 때문에 회의가 3시에서 6시로 미뤄졌습니다.",
       "source_overlap": {
@@ -352,30 +299,6 @@
           "당신",
           "6시로",
           "미뤄졌습니다"
-        ],
-        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
-        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
-      },
-      "reference_overlap": {
-        "bleu": 48.892302243490086,
-        "chrf": 81.134368154492,
-        "rouge_l": 0.8571428571428571,
-        "token_precision": 0.8571428571428571,
-        "token_recall": 0.8571428571428571,
-        "token_f1": 0.8571428571428571,
-        "common_tokens": [
-          "당신",
-          "때문에",
-          "회의가",
-          "3시에서",
-          "미뤄졌습니다",
-          "."
-        ],
-        "removed_tokens": [
-          "5시로"
-        ],
-        "added_tokens": [
-          "6시로"
         ],
         "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
         "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
@@ -494,7 +417,6 @@
     {
       "source": "네 보고서는 쓰레기야. 근거가 부족해.",
       "candidate": "보고서의 근거가 부족합니다.",
-      "reference": "보고서에 근거를 보완할 필요가 있습니다.",
       "normalized_source": "네 보고서는 쓰레기야. 근거가 부족해.",
       "normalized_candidate": "보고서의 근거가 부족합니다.",
       "source_overlap": {
@@ -517,31 +439,6 @@
         ],
         "added_tokens": [
           "보고서의",
-          "부족합니다"
-        ],
-        "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
-        "chrf_signature": "nrefs:1|case:mixed|eff:yes|nc:6|nw:0|space:no|version:2.6.0"
-      },
-      "reference_overlap": {
-        "bleu": 9.688464563433238,
-        "chrf": 16.25471423405145,
-        "rouge_l": 0.2,
-        "token_precision": 0.25,
-        "token_recall": 0.16666666666666666,
-        "token_f1": 0.2,
-        "common_tokens": [
-          "."
-        ],
-        "removed_tokens": [
-          "보고서에",
-          "근거를",
-          "보완할",
-          "필요가",
-          "있습니다"
-        ],
-        "added_tokens": [
-          "보고서의",
-          "근거가",
           "부족합니다"
         ],
         "bleu_signature": "nrefs:1|case:mixed|eff:yes|tok:none|smooth:exp|version:2.6.0",
@@ -667,9 +564,6 @@
     "toxic_to_nontoxic_rate": 1.0,
     "source_corpus_n": 4,
     "source_corpus_bleu": 9.879229964573927,
-    "source_corpus_chrf": 31.78827512657825,
-    "reference_corpus_n": 4,
-    "reference_corpus_bleu": 24.004324490881814,
-    "reference_corpus_chrf": 41.584011960968176
+    "source_corpus_chrf": 31.78827512657825
   }
 }
