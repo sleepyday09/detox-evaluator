@@ -14,6 +14,9 @@ h1,h2,h3 { letter-spacing: -.04em; }
 div[data-testid="stMetric"] { background:white; border:1px solid #e1e7ef; border-radius:14px; padding:18px; }
 div[data-testid="stMetricLabel"] { color:#536177; }
 div[data-testid="stMetricValue"] { color:#143c66; }
+div[data-testid="stMetricValue"] > div { white-space:normal; overflow-wrap:anywhere; text-overflow:clip; }
+[class*="st-key-comparison-card-"] div[data-testid="stMetricValue"] { font-size:1.55rem; line-height:1.6; }
+[class*="st-key-comparison-card-"] div[data-testid="stMetricValue"] > div { white-space:pre-line; }
 [class*="st-key-score-card-"] { background:white; border:1px solid #e1e7ef; border-radius:14px; padding:18px; }
 [class*="st-key-score-card-"] div[data-testid="stMetric"] { background:transparent; border:0; border-radius:0; padding:0; }
 .eyebrow { color:#256b91; font-size:12px; font-weight:700; letter-spacing:.16em; }
@@ -108,9 +111,11 @@ def render_result(r):
 
     with st.expander("독성 변화와 자연성 상세", expanded=True):
         a, b, c = st.columns(3)
-        a.metric("원문 독성 → 순화문 독성", f"{fmt(r['toxicity_source'])} → {fmt(r['toxicity_candidate'])}")
+        with a, st.container(key="comparison-card-toxicity"):
+            st.metric("독성 점수 변화", f"원문 {fmt(r['toxicity_source'])}\n순화문 {fmt(r['toxicity_candidate'])}")
         b.metric("독성 감소량 · 양수면 감소", fmt(r["toxicity_reduction"]))
-        c.metric("원문 PPL → 순화문 PPL", f"{fmt(r['ppl_source'], 2)} → {fmt(r['ppl_candidate'], 2)}")
+        with c, st.container(key="comparison-card-ppl"):
+            st.metric("PPL 변화", f"원문 {fmt(r['ppl_source'], 2)}\n순화문 {fmt(r['ppl_candidate'], 2)}")
         if r["sta"] is not None:
             st.write(f"비독성 판정 STAᵢ = {r['sta']} (순화문 독성 점수 < {r['settings']['toxicity_threshold']}). 여러 문장의 평균이 비독성 판정 비율 STA입니다.")
         st.caption("UnSmile 다중 라벨 분류기의 혐오·욕설 9개 점수 중 최댓값을 사용합니다(clean 제외). 인용·반어 등에서 오판할 수 있으며, 이 프로젝트 데이터의 정확도는 별도 검증이 필요합니다.")
@@ -164,8 +169,9 @@ with single:
         source = a.text_area("원문", "네 보고서는 쓰레기야. 근거가 부족해.", height=150, max_chars=MAX_CHARS)
         candidate = b.text_area("순화문", "보고서의 근거가 부족합니다.", height=150, max_chars=MAX_CHARS)
         with st.expander("선택 입력 · 기준 순화문과 핵심 표현"):
+            st.caption("순화문은 평가할 문장, 기준 순화문은 비교 기준으로 삼을 사람이 작성한 순화 예시입니다. 기준문은 비워 두어도 됩니다.")
             reference = st.text_area("사람이 작성한 기준 순화문", max_chars=MAX_CHARS,
-                                     help="입력하면 순화문을 이 기준문과도 비교합니다.")
+                                     help="기준문과 순화문 사이의 BLEU·ROUGE-L·chrF·토큰 중복을 추가로 비교합니다. 원문 대비 SIM·독성·PPL·J_proxy에는 영향을 주지 않습니다.")
             keywords = st.text_input("보존을 확인할 핵심 표현 · 쉼표로 구분", placeholder="보고서, 근거",
                                      help="원문에 존재하는 표현만 분모에 포함합니다. 부분 문자열의 존재 여부를 확인합니다.")
         submitted = st.form_submit_button("문장 비교하기", type="primary", width="stretch")
