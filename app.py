@@ -14,6 +14,8 @@ h1,h2,h3 { letter-spacing: -.04em; }
 div[data-testid="stMetric"] { background:white; border:1px solid #e1e7ef; border-radius:14px; padding:18px; }
 div[data-testid="stMetricLabel"] { color:#536177; }
 div[data-testid="stMetricValue"] { color:#143c66; }
+[class*="st-key-score-card-"] { background:white; border:1px solid #e1e7ef; border-radius:14px; padding:18px; }
+[class*="st-key-score-card-"] div[data-testid="stMetric"] { background:transparent; border:0; border-radius:0; padding:0; }
 .eyebrow { color:#256b91; font-size:12px; font-weight:700; letter-spacing:.16em; }
 </style>""", unsafe_allow_html=True)
 
@@ -55,10 +57,22 @@ def render_result(r):
             st.write("기준 순화문", r["reference"])
         st.json(r["settings"])
     cards = st.columns(4)
-    cards[0].metric("의미 유사도 · SIM", fmt(r["sim"]), help="한국어 KR-SBERT 임베딩 코사인 유사도. −1~1. 의미 보존 확률이나 정확도가 아닙니다.")
-    cards[1].metric("문자 중복 · chrF", fmt(r["source_overlap"]["chrf"], 1), help="원문 대비 문자 1~6-gram Fβ(β=2). 0~100. 의미 판단과 별개입니다.")
-    cards[2].metric("순화문 독성 점수", fmt(r["toxicity_candidate"]), help="UnSmile의 혐오·욕설 9개 라벨 sigmoid 점수 중 최댓값. 0~1. 하나 이상 유해할 확률이나 보정된 실제 독성 확률이 아닙니다.")
-    cards[3].metric("순화문 PPL ↓", fmt(r["ppl_candidate"], 2), help="KoGPT2가 평가한 perplexity. 낮을수록 모델 관점에서 예측하기 쉽습니다. 문법 판정이나 0~1 FL이 아닙니다.")
+    with cards[0], st.container(key="score-card-sim"):
+        st.metric("의미 유사도 · SIM", fmt(r["sim"]), help="한국어 KR-SBERT 임베딩 코사인 유사도. −1~1. 의미 보존 확률이나 정확도가 아닙니다.")
+        st.caption("최소 **−1** · 최대 **1**")
+        st.caption("↑ 높을수록 모델이 의미를 유사하게 평가")
+    with cards[1], st.container(key="score-card-chrf"):
+        st.metric("문자 중복 · chrF", fmt(r["source_overlap"]["chrf"], 1), help="원문 대비 문자 1~6-gram Fβ(β=2). 0~100. 의미 판단과 별개입니다.")
+        st.caption("최소 **0** · 최대 **100**")
+        st.caption("↑ 높을수록 겹치는 문자 표현이 많음")
+    with cards[2], st.container(key="score-card-toxicity"):
+        st.metric("순화문 독성 점수", fmt(r["toxicity_candidate"]), help="UnSmile의 혐오·욕설 9개 라벨 sigmoid 점수 중 최댓값. 0~1. 하나 이상 유해할 확률이나 보정된 실제 독성 확률이 아닙니다.")
+        st.caption("최소 **0** · 최대 **1**")
+        st.caption("↓ 낮을수록 모델이 독성을 낮게 평가")
+    with cards[3], st.container(key="score-card-ppl"):
+        st.metric("순화문 PPL ↓", fmt(r["ppl_candidate"], 2), help="KoGPT2가 평가한 perplexity. 낮을수록 모델 관점에서 예측하기 쉽습니다. 문법 판정이나 0~1 FL이 아닙니다.")
+        st.caption("최소 **1** (이론값) · 최대 **상한 없음**")
+        st.caption("↓ 낮을수록 언어 모델이 예측하기 쉬움")
     st.info("SIM이 높아도 주장·대상·인과관계가 같다고 보장하지 않습니다. 변경 표시와 확인 항목을 함께 읽으세요.")
 
     left, right = st.columns([1.3, 1])
