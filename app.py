@@ -57,6 +57,24 @@ def download(results, key):
 def render_result(r):
     st.subheader("분석 결과")
     st.caption("아래 결과는 마지막으로 ‘문장 비교하기’를 누른 입력과 설정 기준입니다. 입력을 바꾼 뒤에는 다시 분석하세요.")
+    with st.expander("독성 변화와 자연성 상세", expanded=True):
+        a, b, c = st.columns(3)
+        with a, st.container(key="comparison-card-toxicity"):
+            st.metric("독성 점수 변화", f"원문 {fmt(r['toxicity_source'])}\n순화문 {fmt(r['toxicity_candidate'])}")
+            st.caption("**독성 점수:** 혐오·욕설을 모델이 평가한 점수입니다. **0~1** 사이이며, 낮을수록 독성을 낮게 평가합니다.")
+        with b:
+            st.metric("독성 감소량", fmt(r["toxicity_reduction"]))
+            st.caption("**원문 독성 점수 − 순화문 독성 점수**")
+            st.caption("**양수(0보다 큼):** 독성 감소 · **0:** 변화 없음 · **음수(0보다 작음):** 독성 증가")
+        with c, st.container(key="comparison-card-ppl"):
+            st.metric("PPL 변화", f"원문 {fmt(r['ppl_source'], 2)}\n순화문 {fmt(r['ppl_candidate'], 2)}")
+            st.caption("**PPL:** 언어 모델이 문장을 예측하기 어려운 정도를 나타냅니다. **낮을수록 예측하기 쉬우며**, 문법 정확도 점수는 아닙니다.")
+        if r["sta"] is not None:
+            st.write(f"비독성 판정 STAᵢ = {r['sta']} (순화문 독성 점수 < {r['settings']['toxicity_threshold']}). 여러 문장의 평균이 비독성 판정 비율 STA입니다.")
+        st.caption("UnSmile 다중 라벨 분류기의 혐오·욕설 9개 점수 중 최댓값을 사용합니다(clean 제외). 인용·반어 등에서 오판할 수 있으며, 이 프로젝트 데이터의 정확도는 별도 검증이 필요합니다.")
+        if r.get("toxicity_labels_source"):
+            st.dataframe([{"분류": label, "원문 점수": score, "순화문 점수": r["toxicity_labels_candidate"][label]}
+                          for label, score in r["toxicity_labels_source"].items()], hide_index=True, width="stretch")
     with st.expander("평가한 문장과 설정 확인"):
         st.write("원문", r["source"])
         st.write("순화문", r["candidate"])
@@ -110,19 +128,6 @@ def render_result(r):
             st.write("원문에 없어 계산에서 제외한 표현", check["keywords_not_in_source"])
         st.write("숫자 비교", {"원문": check["source_numbers"], "순화문": check["candidate_numbers"]})
 
-    with st.expander("독성 변화와 자연성 상세", expanded=True):
-        a, b, c = st.columns(3)
-        with a, st.container(key="comparison-card-toxicity"):
-            st.metric("독성 점수 변화", f"원문 {fmt(r['toxicity_source'])}\n순화문 {fmt(r['toxicity_candidate'])}")
-        b.metric("독성 감소량 · 양수면 감소", fmt(r["toxicity_reduction"]))
-        with c, st.container(key="comparison-card-ppl"):
-            st.metric("PPL 변화", f"원문 {fmt(r['ppl_source'], 2)}\n순화문 {fmt(r['ppl_candidate'], 2)}")
-        if r["sta"] is not None:
-            st.write(f"비독성 판정 STAᵢ = {r['sta']} (순화문 독성 점수 < {r['settings']['toxicity_threshold']}). 여러 문장의 평균이 비독성 판정 비율 STA입니다.")
-        st.caption("UnSmile 다중 라벨 분류기의 혐오·욕설 9개 점수 중 최댓값을 사용합니다(clean 제외). 인용·반어 등에서 오판할 수 있으며, 이 프로젝트 데이터의 정확도는 별도 검증이 필요합니다.")
-        if r.get("toxicity_labels_source"):
-            st.dataframe([{"분류": label, "원문 점수": score, "순화문 점수": r["toxicity_labels_candidate"][label]}
-                          for label, score in r["toxicity_labels_source"].items()], hide_index=True, width="stretch")
     with st.expander("실험용 종합 점수 · 논문의 J와 다름"):
         st.latex(r"FL_{proxy}=1/PPL_y,\quad J_{proxy}=STA_i\times\max(0,SIM)\times FL_{proxy}")
         st.write("J_proxy", fmt(r["j_proxy"], 6))
